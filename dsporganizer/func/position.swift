@@ -37,6 +37,10 @@ func positionDisplays(_ posMain: String, _ posDecr: String) {
             print("PD: duplicate screenId (",itemKey,")in 'position'", separator: "")
             exit(EXIT_FAILURE)
         }
+        if (posDict.count >= MAX_DISPLAYS-1) {
+            print("PD: MAX_DISPLAYS (", MAX_DISPLAYS ,") limit reached", separator: "")
+            exit(EXIT_FAILURE)
+        }
         posDict[itemKey] = posItem(NSMakePoint(itemMatches[1].toCGFloat(of: item), itemMatches[2].toCGFloat(of: item)))
     }
     
@@ -88,5 +92,4 @@ func positionDisplays(_ posMain: String, _ posDecr: String) {
     CGCompleteDisplayConfiguration(config.pointee, CGConfigureOption.forSession)
     Displays.deinitialize(count:MAX_DISPLAYS)
     Displays.deallocate()
-    
 }
