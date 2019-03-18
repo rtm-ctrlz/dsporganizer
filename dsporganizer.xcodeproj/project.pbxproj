@@ -17,6 +17,9 @@
 		596E212D223FA758002C26F1 /* posItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596E212C223FA758002C26F1 /* posItem.swift */; };
 		596E212F223FA76E002C26F1 /* exts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596E212E223FA76E002C26F1 /* exts.swift */; };
 		596E2131223FA787002C26F1 /* const.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596E2130223FA787002C26F1 /* const.swift */; };
+		596E2134223FB645002C26F1 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 596E2133223FB645002C26F1 /* AppKit.framework */; settings = {ATTRIBUTES = (Required, ); }; };
+		596E2136223FB64F002C26F1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 596E2135223FB64F002C26F1 /* Foundation.framework */; };
+		596E2138223FB9D5002C26F1 /* current.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596E2137223FB9D5002C26F1 /* current.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -43,6 +46,9 @@
 		596E212C223FA758002C26F1 /* posItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = posItem.swift; sourceTree = "<group>"; };
 		596E212E223FA76E002C26F1 /* exts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = exts.swift; sourceTree = "<group>"; };
 		596E2130223FA787002C26F1 /* const.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = const.swift; sourceTree = "<group>"; };
+		596E2133223FB645002C26F1 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		596E2135223FB64F002C26F1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		596E2137223FB9D5002C26F1 /* current.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = current.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,6 +56,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				596E2136223FB64F002C26F1 /* Foundation.framework in Frameworks */,
+				596E2134223FB645002C26F1 /* AppKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,6 +69,7 @@
 			children = (
 				595D450C223BBBAE006BCA44 /* dsporganizer */,
 				595D450B223BBBAE006BCA44 /* Products */,
+				596E2132223FB645002C26F1 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -89,6 +98,7 @@
 				596E2122223FA6DE002C26F1 /* info.swift */,
 				596E2125223FA714002C26F1 /* screens.swift */,
 				596E2127223FA727002C26F1 /* position.swift */,
+				596E2137223FB9D5002C26F1 /* current.swift */,
 			);
 			path = func;
 			sourceTree = "<group>";
@@ -103,6 +113,15 @@
 				596E2130223FA787002C26F1 /* const.swift */,
 			);
 			path = helper;
+			sourceTree = "<group>";
+		};
+		596E2132223FB645002C26F1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				596E2135223FB64F002C26F1 /* Foundation.framework */,
+				596E2133223FB645002C26F1 /* AppKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -170,6 +189,7 @@
 				596E211F223FA61D002C26F1 /* opts.swift in Sources */,
 				596E2126223FA714002C26F1 /* screens.swift in Sources */,
 				596E2128223FA727002C26F1 /* position.swift in Sources */,
+				596E2138223FB9D5002C26F1 /* current.swift in Sources */,
 				596E2121223FA6C1002C26F1 /* help.swift in Sources */,
 				596E2131223FA787002C26F1 /* const.swift in Sources */,
 			);
@@ -296,9 +316,12 @@
 		595D4512223BBBAE006BCA44 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = M684576Z4C;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
@@ -306,9 +329,12 @@
 		595D4513223BBBAE006BCA44 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = M684576Z4C;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
 			};
 			name = Release;

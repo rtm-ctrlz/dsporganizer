@@ -31,7 +31,7 @@ func displayHelp() {
         "\t\t112233:0x1200,445566:0x2280",
         "",
         "  Complete example:",
-        "    Screens:",
+        "    Screens (system with 2 screens):",
         "     main screen (id: 123, size: 1920x1200)",
         "     second screen(id: 456, size: 1920x1080)",
         "    Positioning:",
@@ -41,4 +41,6 @@ func displayHelp() {
         "        $ "+prog+"-m 123 -p '456:0x1200'",
         separator: "\n"
     )
+    print("")
+    displayCurrentCmd()
 }
