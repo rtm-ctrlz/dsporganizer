@@ -79,3 +79,6 @@ I don't know how to describe this pattern, but in regex terms it will be `\d+:-?
 
 # Сompatibility
  ✅ macOS 10.13 Hight Sierra
+ 
+# Thanks
+Many our thanks goes to [sel-fish](https://github.com/sel-fish) with [hmscreens] project for idia and some code.
