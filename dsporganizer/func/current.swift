@@ -10,6 +10,10 @@ import Foundation
 import AppKit
 
 func displayCurrentCmd() {
+    if (NSScreen.screens.count == 1) {
+        return
+    }
+    
     var curDescr:[String: String] = [:]
     var curMainId: String = ""
     for screen in NSScreen.screens {
@@ -20,17 +24,16 @@ func displayCurrentCmd() {
             curDescr[String(cgScreenId)] = String(cgScreenId) + ":" + String(format: "%.0f", screen.frame.origin.x) + "," + String(format: "%.0f", screen.frame.origin.y)
         }
     }
+    // is it possible?
     if (curDescr.count < 0) {
         return
     }
-    if (curDescr.count == 0) {
-        return
-    }
+    // if main screen not found pick first screen as main
     if (curMainId == "") {
         curMainId = curDescr.first!.key
         curDescr[curMainId] = nil
     }
-    print("Current setup positioning (call example):",
+    print("Current positioning setup (call example):",
           " $ "+prog+" -m "+curMainId+" -p '"+curDescr.map({return $0.value}).joined(separator: ",")+"'",
           separator: "\n"
     )
