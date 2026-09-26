@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreGraphics
 
 func displayScreens() {
     let Displays = UnsafeMutablePointer<CGDirectDisplayID>.allocate(capacity: MAX_DISPLAYS)

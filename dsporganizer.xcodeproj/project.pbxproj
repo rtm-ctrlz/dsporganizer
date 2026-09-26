@@ -316,7 +316,7 @@
 		595D4512223BBBAE006BCA44 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = M684576Z4C;
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
@@ -329,7 +329,7 @@
 		595D4513223BBBAE006BCA44 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = M684576Z4C;
 				MACOSX_DEPLOYMENT_TARGET = 10.14;

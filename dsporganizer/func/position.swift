@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreGraphics
 
 func positionDisplays(_ posMain: String, _ posDecr: String) {
     if (Int(posMain)==nil) {
