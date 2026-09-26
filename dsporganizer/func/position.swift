@@ -17,13 +17,13 @@ func positionDisplays(_ posMain: String, _ posDecr: String) {
     let iMain = UInt32(posMain)!
     let range = NSRange(location: 0, length: posDecr.utf16.count)
     
-    var re = try! NSRegularExpression(pattern: "^(\\d+:-?\\d+x-?\\d+,+)*(\\d+:-?\\d+x-?\\d+)$", options: [NSRegularExpression.Options.caseInsensitive,NSRegularExpression.Options.anchorsMatchLines])
+    var re = try! NSRegularExpression(pattern: "^(\\d+:-?\\d+[,x]-?\\d+,+)*(\\d+:-?\\d+[,x]-?\\d+)$", options: [NSRegularExpression.Options.caseInsensitive,NSRegularExpression.Options.anchorsMatchLines])
     let test = re.matches(in: posDecr, options: [], range: range);
     if (test.count != 1) {
         print("PD: 'position' - wrong format")
         exit(EXIT_FAILURE)
     }
-    re = try! NSRegularExpression(pattern: "\\d+:-?\\d+x-?\\d+", options: [NSRegularExpression.Options.caseInsensitive])
+    re = try! NSRegularExpression(pattern: "\\d+:-?\\d+[,x]-?\\d+", options: [NSRegularExpression.Options.caseInsensitive])
     
     var posDict: [UInt32: posItem] = [iMain: posItem(NSMakePoint(CGFloat(0), CGFloat(0)))]
     
