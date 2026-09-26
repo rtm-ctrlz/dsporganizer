@@ -17,9 +17,11 @@ func displayHelp() {
         "\t"+ProgOpts.map({return $0.value.help}).joined(separator: "\n\t"),
         "",
         "NOTE: Global Position {0, 0} coordinate (as shown under --info)",
-        "      is the lower left corner of the main screen axes:",
-        "        - XAxis: from right (0px) to left (Npx)",
-        "        - YAxis: from bottom (0px) to up (Npx)",
+        "      is the upper left corner of the main screen; the axes are:",
+        "        - XAxis: from left (0px) to right (Npx)",
+        "        - YAxis: from top (0px) to bottom (Npx)",
+        "      A screen left of the main one has a negative X,",
+        "      a screen above the main one has a negative Y.",
         "",
         "Positioning screens: args 'main' and 'position' are reqiered.",
         "  Main screen will have position {0,0}.",
@@ -40,9 +42,9 @@ func displayHelp() {
         "     second screen(id: 456, size: 1920x1080)",
         "    Positioning:",
         "     1) second screen to the right of main:",
-        "        $ "+prog+"-m 123 -p '456:1920x0",
+        "        $ "+prog+" -m 123 -p 456:1920x0",
         "     2) second screen ontop of main:",
-        "        $ "+prog+"-m 123 -p '456:0x1200'",
+        "        $ "+prog+" -m 123 -p 456:0x1200",
         separator: "\n"
     )
     print("")

@@ -18,10 +18,12 @@ func displayCurrentCmd() {
     var curMainId: String = ""
     for screen in NSScreen.screens {
         let cgScreenId = CGDirectDisplayID(truncating: NSNumber(value: (screen.deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")]!) as! Int))
-        if (screen.frame.origin.x == 0 && screen.frame.origin.y==0) {
+        if (CGDisplayIsMain(cgScreenId) != 0) {
             curMainId = String(cgScreenId)
         } else {
-            curDescr[String(cgScreenId)] = String(cgScreenId) + ":" + String(format: "%.0f", screen.frame.origin.x) + "," + String(format: "%.0f", screen.frame.origin.y)
+            // CGDisplayBounds: the coordinate system --position works in
+            let bounds = CGDisplayBounds(cgScreenId)
+            curDescr[String(cgScreenId)] = String(cgScreenId) + ":" + String(Int(bounds.origin.x)) + "x" + String(Int(bounds.origin.y))
         }
     }
     // is it possible?
@@ -33,8 +35,13 @@ func displayCurrentCmd() {
         curMainId = curDescr.first!.key
         curDescr[curMainId] = nil
     }
+    // one '-p' per screen, ordered by screen id, so the line is stable between runs
+    let posArgs = curDescr.keys
+        .sorted(by: { (UInt32($0) ?? 0) < (UInt32($1) ?? 0) })
+        .map({ return "-p " + curDescr[$0]! })
+        .joined(separator: " ")
     print("Current positioning setup (call example):",
-          " $ "+prog+" -m "+curMainId+" -p '"+curDescr.map({return $0.value}).joined(separator: ",")+"'",
+          " $ " + prog + " -m " + curMainId + " " + posArgs,
           separator: "\n"
     )
     

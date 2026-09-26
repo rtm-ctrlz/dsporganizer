@@ -21,7 +21,21 @@ func displayInfo() {
         let size = deviceDescription[NSDeviceDescriptionKey.size]! as! NSSize;
         print("Size: ", Int(size.width),"x",Int(size.height), separator: "")
         
-        print("Global Position: ", Int(screen.frame.origin.x),",",Int(screen.frame.origin.y)," ", Int(screen.frame.origin.x + screen.frame.width),",",Int(screen.frame.origin.y+screen.frame.height), separator: "")
+        // CGDisplayBounds, not NSScreen.frame: these are the coordinates
+        // CGConfigureDisplayOrigin (and therefore --position) works with
+        let bounds = CGDisplayBounds(cgScreenId)
+        let tlX = Int(bounds.origin.x)
+        let tlY = Int(bounds.origin.y)
+        let brX = Int(bounds.origin.x + bounds.width)
+        let brY = Int(bounds.origin.y + bounds.height)
+        print("Global Position:",
+              "  top-left (origin): X=\(tlX), Y=\(tlY)",
+              "  bottom-right     : X=\(brX), Y=\(brY)",
+              "  position         : " + ((CGDisplayIsMain(cgScreenId) != 0)
+                                          ? "-m \(cgScreenId)"
+                                          : "-p \(cgScreenId):\(tlX)x\(tlY)"),
+              separator: "\n"
+        )
         
         print("Color Space:", deviceDescription[NSDeviceDescriptionKey.colorSpaceName] as! String)
         
