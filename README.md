@@ -14,6 +14,28 @@ CLI utility that uses CoreGraphics to place screens exactly as you want.
 # Side effects
 Since you can make screens to overlap or make a gap between then - resulting positions of screens may be not exactly as you expecting, so use `--info`
 
+# Build and run
+```shell
+git clone https://github.com/rtm-ctrlz/dsporganizer.git
+cd dsporganizer
+
+xcodebuild -project dsporganizer.xcodeproj -scheme dsporganizer -configuration Release -derivedDataPath build build
+
+./build/Build/Products/Release/dsporganizer -i
+```
+
+The binary is `build/Build/Products/Release/dsporganizer` (universal, x86_64 + arm64).
+Copy it into your `PATH` to call it by name:
+```shell
+cp build/Build/Products/Release/dsporganizer /usr/local/bin/
+```
+
+Xcode is not required to build — the compiler alone is enough (arm64 only, unsigned):
+```shell
+swiftc -O -o dsporganizer $(find dsporganizer -name '*.swift')
+```
+
+
 # Usage
 ## Info
 **`-i | --info`**
