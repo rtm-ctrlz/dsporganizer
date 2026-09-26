@@ -16,7 +16,8 @@ struct Opt {
     var help: String
     init(_ short: String, _ long: ProgOptsKey, _ has_arg: Bool? = nil, descrition: String = "no descrition") {
         self.short = Int32(short.unicodeScalars.first!.value)
-        self.long = UnsafePointer.init(long.rawValue.cString(using: .utf8))
+        // strdup: getopt_long keeps this pointer, so it must outlive the initializer
+        self.long = UnsafePointer(strdup(long.rawValue))
         if (has_arg == nil) {
             self.has_arg = no_argument
         } else if (has_arg!) {
