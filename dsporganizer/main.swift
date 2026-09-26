@@ -41,7 +41,9 @@ while case let option = getopt_long(CommandLine.argc, CommandLine.unsafeArgv, ge
     case ProgOpts[ProgOptsKey.main]!.short:
         posMain = String(cString: optarg)
     case ProgOpts[ProgOptsKey.position]!.short:
-        posDecr = String(cString: optarg)
+        // '-p' may be repeated: '-p a -p b' is the same as '-p a,b'
+        let posPart = String(cString: optarg)
+        posDecr = (posDecr == nil) ? posPart : posDecr! + "," + posPart
     default:
         continue
     }

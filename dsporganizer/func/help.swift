@@ -27,6 +27,8 @@ func displayHelp() {
         "  Position arg format:",
         "\tformat: [<screenId-1>:<X-pos-1>x<Y-pos-1>,]<screenId-2>:<X-pos-2>x<Y-pos-2>",
         "\t        X and Y may be separated by either 'x' or ','",
+        "\t        '-p' may be repeated: -p 4:-1440x0 -p 3:0x1120",
+        "\t        is the same as -p 4:-1440x0,3:0x1120",
         "\texamples:",
         "\t\t112233:0x1200",
         "\t\t112233:0,1200",
