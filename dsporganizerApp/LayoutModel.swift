@@ -36,6 +36,11 @@ final class LayoutModel {
     private(set) var systemLayout: [DisplayID: CGPoint] = [:]
     private(set) var systemMainID: DisplayID = 0
 
+    /// The current desktop picture of each screen, shown faintly on its tile.
+    private(set) var wallpapers: [DisplayID: NSImage] = [:]
+    /// Keyed by URL, so dragging (which reloads on every screen-parameters tick) doesn't redecode.
+    @ObservationIgnored private var wallpaperCache: [URL: NSImage] = [:]
+
     /// Set after Apply when macOS placed screens differently from what was requested.
     private(set) var systemAdjustedLayout = false
     var errorMessage: String?
@@ -255,6 +260,7 @@ final class LayoutModel {
             .map { ScreenItem(id: $0.id, name: $0.name, size: $0.bounds.size, isBuiltin: $0.isBuiltin) }
         systemMainID = (displays.first(where: \.isMain) ?? displays.first)?.id ?? 0
         systemLayout = Dictionary(uniqueKeysWithValues: displays.map { ($0.id, $0.bounds.origin) })
+        reloadWallpapers(for: displays)
 
         // keep unsaved edits unless the set of screens has changed under them
         if !keepEdits || !sameScreens {
@@ -289,6 +295,21 @@ final class LayoutModel {
             }
             systemAdjustedLayout = adjusted
         }
+    }
+
+    private func reloadWallpapers(for displays: [DisplayInfo]) {
+        var result: [DisplayID: NSImage] = [:]
+        for display in displays {
+            guard let screen = nsScreen(for: display.id),
+                  let url = NSWorkspace.shared.desktopImageURL(for: screen) else { continue }
+            if let cached = wallpaperCache[url] {
+                result[display.id] = cached
+            } else if let image = NSImage(contentsOf: url) {
+                wallpaperCache[url] = image
+                result[display.id] = image
+            }
+        }
+        wallpapers = result
     }
 
     /// Re-reads the system layout and drops all unsaved edits.

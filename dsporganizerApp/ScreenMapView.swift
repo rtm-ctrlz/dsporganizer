@@ -6,6 +6,7 @@
 //  of a screen) to nudge by 1px, with Shift by 10px. Edge snapping is optional.
 //
 
+import AppKit
 import SwiftUI
 
 /// Maps global screen coordinates to view coordinates.
@@ -71,6 +72,7 @@ struct ScreenMapView: View {
                     ScreenTile(
                         screen: screen,
                         origin: model.relativeOrigin(of: screen.id),
+                        wallpaper: model.wallpapers[screen.id],
                         isMain: screen.id == model.mainID,
                         isSelected: screen.id == model.selectedID,
                         hasIssue: issues[screen.id] != nil,
@@ -370,6 +372,7 @@ private struct MapRulers: View {
 private struct ScreenTile: View {
     let screen: ScreenItem
     let origin: CGPoint
+    let wallpaper: NSImage?
     let isMain: Bool
     let isSelected: Bool
     let hasIssue: Bool
@@ -379,7 +382,25 @@ private struct ScreenTile: View {
     var body: some View {
         let shape = RoundedRectangle(cornerRadius: 6, style: .continuous)
         ZStack(alignment: .top) {
-            shape.fill(isSelected ? AnyShapeStyle(Color.accentColor.opacity(0.3)) : AnyShapeStyle(.quaternary))
+            if let wallpaper {
+                // GeometryReader pins the image to the tile's actual size: an aspectRatio(.fill)
+                // image deliberately overflows its proposal in one axis, and without this, that
+                // overflow propagates up and inflates the whole tile instead of just the picture.
+                GeometryReader { proxy in
+                    Image(nsImage: wallpaper)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: proxy.size.width, height: proxy.size.height)
+                        .clipped()
+                }
+                // a light shade, just enough that the white labels' shadow below reads on any wallpaper
+                Color.black.opacity(0.2)
+            } else {
+                shape.fill(.quaternary)
+            }
+            if isSelected {
+                shape.fill(Color.accentColor.opacity(0.3))
+            }
 
             if isMain {
                 // the menu bar lives on the main screen
@@ -395,11 +416,14 @@ private struct ScreenTile: View {
                 Text(verbatim: "\(Int(origin.x)), \(Int(origin.y))")
                     .monospacedDigit()
                 Text(verbatim: "id \(screen.id)")
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(wallpaper != nil ? AnyShapeStyle(.white.opacity(0.75)) : AnyShapeStyle(.secondary))
             }
             .font(.callout)
             .multilineTextAlignment(.center)
             .minimumScaleFactor(0.4)
+            .foregroundStyle(wallpaper != nil ? AnyShapeStyle(.white) : AnyShapeStyle(.primary))
+            // like Mission Control's screen labels: a shadow keeps text legible over any wallpaper
+            .shadow(color: .black.opacity(wallpaper != nil ? 0.8 : 0), radius: 2)
             .padding(8)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }

@@ -72,6 +72,16 @@ func currentDisplays() throws -> [DisplayInfo] {
     })
 }
 
+/// The NSScreen backing `id`, if it is currently connected.
+func nsScreen(for id: CGDirectDisplayID) -> NSScreen? {
+    NSScreen.screens.first {
+        guard let number = $0.deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? NSNumber else {
+            return false
+        }
+        return CGDirectDisplayID(truncating: number) == id
+    }
+}
+
 /// Moves `main` to {0,0} and every other screen to its origin in `positions`.
 /// Every active screen must be either `main` or present in `positions`;
 /// entries for screens that are not connected are skipped and returned.
