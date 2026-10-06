@@ -20,6 +20,18 @@
 		596E2134223FB645002C26F1 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 596E2133223FB645002C26F1 /* AppKit.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		596E2136223FB64F002C26F1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 596E2135223FB64F002C26F1 /* Foundation.framework */; };
 		596E2138223FB9D5002C26F1 /* current.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596E2137223FB9D5002C26F1 /* current.swift */; };
+		5AD0C0DE000000000000000C /* displays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD0C0DE0000000000000001 /* displays.swift */; };
+		5AD0C0DE000000000000000D /* displays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD0C0DE0000000000000001 /* displays.swift */; };
+		5AD0C0DE000000000000000E /* const.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596E2130223FA787002C26F1 /* const.swift */; };
+		5AD0C0DE0000000000000200 /* DSPOrganizerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD0C0DE0000000000000100 /* DSPOrganizerApp.swift */; };
+		5AD0C0DE0000000000000201 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD0C0DE0000000000000101 /* ContentView.swift */; };
+		5AD0C0DE0000000000000202 /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD0C0DE0000000000000102 /* SidebarView.swift */; };
+		5AD0C0DE0000000000000203 /* ScreenMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD0C0DE0000000000000103 /* ScreenMapView.swift */; };
+		5AD0C0DE0000000000000204 /* InspectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD0C0DE0000000000000104 /* InspectorView.swift */; };
+		5AD0C0DE0000000000000205 /* LayoutModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD0C0DE0000000000000105 /* LayoutModel.swift */; };
+		5AD0C0DE0000000000000206 /* PresetStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD0C0DE0000000000000106 /* PresetStore.swift */; };
+		5AD0C0DE0000000000000207 /* ScreenOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD0C0DE0000000000000107 /* ScreenOverlay.swift */; };
+		5AD0C0DE0000000000000208 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5AD0C0DE0000000000000108 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -49,6 +61,17 @@
 		596E2133223FB645002C26F1 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		596E2135223FB64F002C26F1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		596E2137223FB9D5002C26F1 /* current.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = current.swift; sourceTree = "<group>"; };
+		5AD0C0DE0000000000000001 /* displays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = displays.swift; sourceTree = "<group>"; };
+		5AD0C0DE0000000000000002 /* DSP Organizer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DSP Organizer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5AD0C0DE0000000000000100 /* DSPOrganizerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSPOrganizerApp.swift; sourceTree = "<group>"; };
+		5AD0C0DE0000000000000101 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		5AD0C0DE0000000000000102 /* SidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarView.swift; sourceTree = "<group>"; };
+		5AD0C0DE0000000000000103 /* ScreenMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenMapView.swift; sourceTree = "<group>"; };
+		5AD0C0DE0000000000000104 /* InspectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspectorView.swift; sourceTree = "<group>"; };
+		5AD0C0DE0000000000000105 /* LayoutModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutModel.swift; sourceTree = "<group>"; };
+		5AD0C0DE0000000000000106 /* PresetStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresetStore.swift; sourceTree = "<group>"; };
+		5AD0C0DE0000000000000107 /* ScreenOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenOverlay.swift; sourceTree = "<group>"; };
+		5AD0C0DE0000000000000108 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,12 +84,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		5AD0C0DE0000000000000007 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		595D4501223BBBAE006BCA44 = {
 			isa = PBXGroup;
 			children = (
+				5AD0C0DE0000000000000004 /* dsporganizerApp */,
 				595D450C223BBBAE006BCA44 /* dsporganizer */,
 				595D450B223BBBAE006BCA44 /* Products */,
 				596E2132223FB645002C26F1 /* Frameworks */,
@@ -77,6 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				595D450A223BBBAE006BCA44 /* dsporganizer */,
+				5AD0C0DE0000000000000002 /* DSP Organizer.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -84,6 +116,7 @@
 		595D450C223BBBAE006BCA44 /* dsporganizer */ = {
 			isa = PBXGroup;
 			children = (
+				5AD0C0DE0000000000000003 /* shared */,
 				596E2129223FA731002C26F1 /* helper */,
 				596E2124223FA6FC002C26F1 /* func */,
 				595D450D223BBBAE006BCA44 /* main.swift */,
@@ -124,6 +157,30 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		5AD0C0DE0000000000000003 /* shared */ = {
+			isa = PBXGroup;
+			children = (
+				5AD0C0DE0000000000000001 /* displays.swift */,
+			);
+			path = shared;
+			sourceTree = "<group>";
+		};
+		5AD0C0DE0000000000000004 /* dsporganizerApp */ = {
+			isa = PBXGroup;
+			children = (
+				5AD0C0DE0000000000000100 /* DSPOrganizerApp.swift */,
+				5AD0C0DE0000000000000101 /* ContentView.swift */,
+				5AD0C0DE0000000000000102 /* SidebarView.swift */,
+				5AD0C0DE0000000000000103 /* ScreenMapView.swift */,
+				5AD0C0DE0000000000000104 /* InspectorView.swift */,
+				5AD0C0DE0000000000000105 /* LayoutModel.swift */,
+				5AD0C0DE0000000000000106 /* PresetStore.swift */,
+				5AD0C0DE0000000000000107 /* ScreenOverlay.swift */,
+				5AD0C0DE0000000000000108 /* Assets.xcassets */,
+			);
+			path = dsporganizerApp;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -144,6 +201,23 @@
 			productReference = 595D450A223BBBAE006BCA44 /* dsporganizer */;
 			productType = "com.apple.product-type.tool";
 		};
+		5AD0C0DE0000000000000005 /* DSP Organizer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5AD0C0DE0000000000000009 /* Build configuration list for PBXNativeTarget "DSP Organizer" */;
+			buildPhases = (
+				5AD0C0DE0000000000000006 /* Sources */,
+				5AD0C0DE0000000000000007 /* Frameworks */,
+				5AD0C0DE0000000000000008 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "DSP Organizer";
+			productName = "DSP Organizer";
+			productReference = 5AD0C0DE0000000000000002 /* DSP Organizer.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -152,11 +226,14 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1010;
-				LastUpgradeCheck = 2660;
+				LastUpgradeCheck = 2700;
 				ORGANIZATIONNAME = "Внештатный командир земли";
 				TargetAttributes = {
 					595D4509223BBBAE006BCA44 = {
 						CreatedOnToolsVersion = 10.1;
+					};
+					5AD0C0DE0000000000000005 = {
+						CreatedOnToolsVersion = 26.6;
 					};
 				};
 			};
@@ -173,9 +250,21 @@
 			projectRoot = "";
 			targets = (
 				595D4509223BBBAE006BCA44 /* dsporganizer */,
+				5AD0C0DE0000000000000005 /* DSP Organizer */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		5AD0C0DE0000000000000008 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5AD0C0DE0000000000000208 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		595D4506223BBBAE006BCA44 /* Sources */ = {
@@ -193,6 +282,24 @@
 				596E2138223FB9D5002C26F1 /* current.swift in Sources */,
 				596E2121223FA6C1002C26F1 /* help.swift in Sources */,
 				596E2131223FA787002C26F1 /* const.swift in Sources */,
+				5AD0C0DE000000000000000C /* displays.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5AD0C0DE0000000000000006 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5AD0C0DE0000000000000200 /* DSPOrganizerApp.swift in Sources */,
+				5AD0C0DE0000000000000201 /* ContentView.swift in Sources */,
+				5AD0C0DE0000000000000202 /* SidebarView.swift in Sources */,
+				5AD0C0DE0000000000000203 /* ScreenMapView.swift in Sources */,
+				5AD0C0DE0000000000000204 /* InspectorView.swift in Sources */,
+				5AD0C0DE0000000000000205 /* LayoutModel.swift in Sources */,
+				5AD0C0DE0000000000000206 /* PresetStore.swift in Sources */,
+				5AD0C0DE0000000000000207 /* ScreenOverlay.swift in Sources */,
+				5AD0C0DE000000000000000D /* displays.swift in Sources */,
+				5AD0C0DE000000000000000E /* const.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -203,6 +310,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -253,7 +361,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 26.6;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -268,6 +376,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -312,7 +421,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 26.6;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
@@ -329,7 +438,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEAD_CODE_STRIPPING = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 26.6;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
@@ -343,10 +452,66 @@
 				CODE_SIGN_STYLE = Manual;
 				DEAD_CODE_STRIPPING = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 26.6;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
+			};
+			name = Release;
+		};
+		5AD0C0DE000000000000000A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "DSP Organizer";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "io.github.rtm-ctrlz.DSPOrganizer";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		5AD0C0DE000000000000000B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "DSP Organizer";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "io.github.rtm-ctrlz.DSPOrganizer";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -367,6 +532,15 @@
 			buildConfigurations = (
 				595D4512223BBBAE006BCA44 /* Debug */,
 				595D4513223BBBAE006BCA44 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5AD0C0DE0000000000000009 /* Build configuration list for PBXNativeTarget "DSP Organizer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5AD0C0DE000000000000000A /* Debug */,
+				5AD0C0DE000000000000000B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

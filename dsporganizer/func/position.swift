@@ -45,52 +45,18 @@ func positionDisplays(_ posMain: String, _ posDecr: String) {
         posDict[itemKey] = posItem(NSMakePoint(itemMatches[1].toCGFloat(of: item), itemMatches[2].toCGFloat(of: item)))
     }
     
-    let Displays = UnsafeMutablePointer<CGDirectDisplayID>.allocate(capacity: MAX_DISPLAYS)
-    let DCount = UnsafeMutablePointer<CGDisplayCount>.allocate(capacity: MAX_DISPLAYS);
-    let err = CGGetActiveDisplayList(UInt32(MAX_DISPLAYS), Displays, DCount)
-    if (err != CGError.success) {
-        print("Error: cannot get displays:", err.rawValue);
-        exit(EXIT_FAILURE)
-    }
-    
-    
-    if (Int(DCount.pointee)==1) {
-        print("PD: only one display found!")
-        exit(EXIT_FAILURE)
-    }
-    
-    let buf = UnsafeMutableBufferPointer(start: Displays, count: Int(DCount.pointee))
-    for (_, screenId) in buf.enumerated() {
-        if (posDict.keys.contains(screenId)) {
-            posDict[screenId]!.found = true;
-        } else {
-            print("PD: found undefined screen (",screenId,")")
-            exit(EXIT_FAILURE)
-        }
-    }
-    let missingPos = posDict.filter({return !$1.found}).keys;
-    if (missingPos.count>0){
-        for missingKey in missingPos {
-            print("PD: screen (",missingKey,") not found, skipping",separator: "")
-            posDict.removeValue(forKey: missingKey)
-        }
-    }
-    if (!posDict.keys.contains(iMain)) {
-        print("PD: missing main screen (",iMain,")",separator:"")
-        exit(EXIT_FAILURE);
-    }
-    if (posDict.count==1) {
-        exit(EXIT_FAILURE);
-    }
-    
-    let config = UnsafeMutablePointer<CGDisplayConfigRef?>.allocate(capacity: MAX_DISPLAYS)
-    CGBeginDisplayConfiguration(config)
-    
+    var positions: [CGDirectDisplayID: CGPoint] = [:]
     for (screenId, dsp) in posDict {
-        CGConfigureDisplayOrigin(config.pointee, screenId, Int32(dsp.position.x), Int32(dsp.position.y))
+        positions[screenId] = dsp.position
     }
-    
-    CGCompleteDisplayConfiguration(config.pointee, CGConfigureOption.forSession)
-    Displays.deinitialize(count:MAX_DISPLAYS)
-    Displays.deallocate()
+    do {
+        for missingKey in try applyDisplayLayout(main: iMain, positions: positions) {
+            print("PD: screen (",missingKey,") not found, skipping",separator: "")
+        }
+    } catch DisplayError.nothingToPosition {
+        exit(EXIT_FAILURE)
+    } catch {
+        print("PD:", error)
+        exit(EXIT_FAILURE)
+    }
 }

@@ -10,39 +10,18 @@ import Foundation
 import AppKit
 
 func displayCurrentCmd() {
-    if (NSScreen.screens.count == 1) {
-        return
-    }
-    
-    var curDescr:[String: String] = [:]
-    var curMainId: String = ""
-    for screen in NSScreen.screens {
-        let cgScreenId = CGDirectDisplayID(truncating: NSNumber(value: (screen.deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")]!) as! Int))
-        if (CGDisplayIsMain(cgScreenId) != 0) {
-            curMainId = String(cgScreenId)
-        } else {
-            // CGDisplayBounds: the coordinate system --position works in
-            let bounds = CGDisplayBounds(cgScreenId)
-            curDescr[String(cgScreenId)] = String(cgScreenId) + ":" + String(Int(bounds.origin.x)) + "x" + String(Int(bounds.origin.y))
-        }
-    }
-    // is it possible?
-    if (curDescr.count < 0) {
+    guard let displays = try? currentDisplays(), displays.count > 1 else {
         return
     }
     // if main screen not found pick first screen as main
-    if (curMainId == "") {
-        curMainId = curDescr.first!.key
-        curDescr[curMainId] = nil
+    let main = (displays.first(where: { $0.isMain }) ?? displays[0]).id
+    var positions: [CGDirectDisplayID: CGPoint] = [:]
+    for display in displays {
+        // CGDisplayBounds: the coordinate system --position works in
+        positions[display.id] = display.bounds.origin
     }
-    // one '-p' per screen, ordered by screen id, so the line is stable between runs
-    let posArgs = curDescr.keys
-        .sorted(by: { (UInt32($0) ?? 0) < (UInt32($1) ?? 0) })
-        .map({ return "-p " + curDescr[$0]! })
-        .joined(separator: " ")
     print("Current positioning setup (call example):",
-          " $ " + prog + " -m " + curMainId + " " + posArgs,
+          " $ " + positionCommand(main: main, positions: positions),
           separator: "\n"
     )
-    
 }

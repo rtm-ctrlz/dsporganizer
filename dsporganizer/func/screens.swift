@@ -10,18 +10,12 @@ import Foundation
 import CoreGraphics
 
 func displayScreens() {
-    let Displays = UnsafeMutablePointer<CGDirectDisplayID>.allocate(capacity: MAX_DISPLAYS)
-    let DCount = UnsafeMutablePointer<CGDisplayCount>.allocate(capacity: MAX_DISPLAYS);
-    let err = CGGetActiveDisplayList(UInt32(MAX_DISPLAYS), Displays, DCount)
-    if (err != CGError.success) {
-        print("Error: cannot get displays:", err.rawValue);
+    do {
+        for id in try activeDisplayIDs() {
+            print(id)
+        }
+    } catch {
+        print("Error:", error)
         exit(EXIT_FAILURE)
     }
-    let buf = UnsafeMutableBufferPointer(start: Displays, count: Int(DCount.pointee))
-    for value in buf.enumerated() {
-        print(value.element)
-    }
-    
-    Displays.deinitialize(count:MAX_DISPLAYS)
-    Displays.deallocate()
 }
