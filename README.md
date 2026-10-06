@@ -35,6 +35,32 @@ Xcode is not required to build — the compiler alone is enough (arm64 only, uns
 swiftc -O -o dsporganizer $(find dsporganizer -name '*.swift')
 ```
 
+# GUI app
+`DSP Organizer.app` does the same as the CLI, in a window (macOS 14 or later):
+* a map of the screens: drag a screen to move it, with optional edge snapping
+  ("Snap screens"; hold ⌥ while dragging to do the opposite);
+  move the selected screen by 1px (with Shift by 10px) with the arrow keys
+  or with the buttons at its edges;
+* exact X/Y of the selected screen, relative to the main one;
+* warnings for overlapping screens and screens not touching the others (macOS would move them);
+* overlays over the real screens, click-through, in the coordinates of the *edited* layout,
+  to check it against how the monitors really stand:
+  * seam rulers (⇧⌘G): a pair of rulers facing each other across every shared edge
+    (ticks every 1pt, longer every 5 and 10, labelled every 50); with the right layout
+    the ticks and labels meet, otherwise the offset is read off directly
+    (`500` facing `496` means 4pt) — nudge the screen until they meet, then Apply;
+  * grid (⌘G): lines over the whole screen that continue straight across the bezels;
+* the ready-to-use `dsporganizer -m … -p …` call for the edited layout, with a Copy button;
+* presets: save the layout under a name, load it later (double-click, or the context menu).
+
+```shell
+xcodebuild -project dsporganizer.xcodeproj -scheme 'DSP Organizer' -configuration Release -derivedDataPath build build
+
+open 'build/Build/Products/Release/DSP Organizer.app'
+```
+
+Like the CLI, the app changes the layout for the current session only.
+
 
 # Usage
 ## Info
