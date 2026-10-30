@@ -207,9 +207,8 @@ private struct LayoutOverview: View {
 
             if !model.warnings.isEmpty {
                 Section("Warnings") {
-                    ForEach(model.warnings, id: \.self) { warning in
-                        Label(warning, systemImage: "exclamationmark.triangle.fill")
-                            .foregroundStyle(.orange)
+                    ForEach(model.warnings) { warning in
+                        WarningRow(model: model, warning: warning)
                     }
                 }
             }

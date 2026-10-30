@@ -22,6 +22,14 @@ enum LayoutIssue: Equatable {
     case detached
 }
 
+struct LayoutWarning: Identifiable, Equatable {
+    let message: String
+    /// The screen that `LayoutModel.fix(_:)` would move to resolve the warning, if any.
+    var fixableScreen: DisplayID?
+
+    var id: String { message }
+}
+
 @MainActor
 @Observable
 final class LayoutModel {
@@ -101,55 +109,118 @@ final class LayoutModel {
         screens.map(rect(of:)).reduce(CGRect.null) { $0.union($1) }
     }
 
-    /// Problems macOS would "fix" on its own by moving screens around.
-    var issues: [DisplayID: LayoutIssue] {
-        var result: [DisplayID: LayoutIssue] = [:]
-        let rects = Dictionary(uniqueKeysWithValues: screens.map { ($0.id, rect(of: $0)) })
+    private var rects: [DisplayID: CGRect] {
+        Dictionary(uniqueKeysWithValues: screens.map { ($0.id, rect(of: $0)) })
+    }
 
-        for a in screens {
-            for b in screens where a.id != b.id {
-                let overlap = rects[a.id]!.intersection(rects[b.id]!)
+    /// Problems macOS would "fix" on its own by moving screens around.
+    var issues: [DisplayID: LayoutIssue] { Self.issues(of: rects, main: mainID) }
+
+    private static func issues(of rects: [DisplayID: CGRect], main: DisplayID) -> [DisplayID: LayoutIssue] {
+        var result: [DisplayID: LayoutIssue] = [:]
+        let ids = rects.keys.sorted()
+
+        for a in ids {
+            for b in ids where a != b {
+                let overlap = rects[a]!.intersection(rects[b]!)
                 if !overlap.isNull && overlap.width > 0 && overlap.height > 0 {
-                    result[a.id] = .overlaps(b.id)
+                    result[a] = .overlaps(b)
                 }
             }
         }
 
         // every screen has to be reachable from the main one through shared edges
-        var reached: Set<DisplayID> = [mainID]
-        var queue = [mainID]
+        var reached: Set<DisplayID> = [main]
+        var queue = [main]
         while let current = queue.popLast() {
-            for other in screens where !reached.contains(other.id) {
-                if Self.touch(rects[current]!, rects[other.id]!) {
-                    reached.insert(other.id)
-                    queue.append(other.id)
+            for other in ids where !reached.contains(other) {
+                if touch(rects[current]!, rects[other]!) {
+                    reached.insert(other)
+                    queue.append(other)
                 }
             }
         }
-        for screen in screens where !reached.contains(screen.id) && result[screen.id] == nil {
-            result[screen.id] = .detached
+        for id in ids where !reached.contains(id) && result[id] == nil {
+            result[id] = .detached
         }
         return result
     }
 
-    /// `issues` and the outcome of the last Apply, as text.
-    var warnings: [String] {
+    /// `issues` and the outcome of the last Apply. An overlapping pair is reported once.
+    var warnings: [LayoutWarning] {
         let names = Dictionary(uniqueKeysWithValues: screens.map { ($0.id, $0.name) })
-        var result = issues
-            .sorted { $0.key < $1.key }
-            .map { id, issue -> String in
-                let name = names[id] ?? String(id)
-                switch issue {
-                case .overlaps(let other):
-                    return "\(name) overlaps \(names[other] ?? String(other)): macOS will move it"
-                case .detached:
-                    return "\(name) does not touch the other screens: macOS will move it"
-                }
+        func name(_ id: DisplayID) -> String { names[id] ?? String(id) }
+        func fixable(_ id: DisplayID) -> DisplayID? { fixedOrigin(of: id) == nil ? nil : id }
+
+        var result: [LayoutWarning] = []
+        var reportedPairs: Set<Set<DisplayID>> = []
+        for (id, issue) in issues.sorted(by: { $0.key < $1.key }) {
+            switch issue {
+            case .overlaps(let other):
+                guard reportedPairs.insert([id, other]).inserted else { continue }
+                result.append(LayoutWarning(
+                    message: "\(name(id)) and \(name(other)) overlap: macOS will move one of them",
+                    fixableScreen: fixable(screenToMove(id, other))
+                ))
+            case .detached:
+                result.append(LayoutWarning(
+                    message: "\(name(id)) does not touch the other screens: macOS will move it",
+                    fixableScreen: fixable(id)
+                ))
             }
+        }
         if systemAdjustedLayout && !isDirty {
-            result.append("macOS adjusted the requested layout, the map shows the actual one")
+            result.append(LayoutWarning(message: "macOS adjusted the requested layout, the map shows the actual one"))
         }
         return result
+    }
+
+    /// Of two overlapping screens, the one to move: never the main one, preferably the selected one.
+    private func screenToMove(_ a: DisplayID, _ b: DisplayID) -> DisplayID {
+        if a == mainID { return b }
+        if b == mainID { return a }
+        if selectedID == b { return b }
+        if selectedID == a { return a }
+        return max(a, b)
+    }
+
+    /// The nearest position for `id` next to one of the other screens, which leaves the fewest issues;
+    /// nil if no such position makes things better.
+    private func fixedOrigin(of id: DisplayID) -> CGPoint? {
+        var rects = self.rects
+        guard let current = rects[id] else { return nil }
+        let size = current.size
+        let currentIssues = Self.issues(of: rects, main: mainID).count
+
+        var best: (origin: CGPoint, issues: Int, distance: CGFloat)?
+        for (otherID, other) in rects where otherID != id {
+            // along an edge of `other`, as close to the current position as still shares some of it
+            let x = min(max(current.minX, other.minX - size.width + 1), other.maxX - 1)
+            let y = min(max(current.minY, other.minY - size.height + 1), other.maxY - 1)
+            let candidates = [
+                CGPoint(x: other.minX - size.width, y: y),
+                CGPoint(x: other.maxX, y: y),
+                CGPoint(x: x, y: other.minY - size.height),
+                CGPoint(x: x, y: other.maxY),
+            ]
+            for origin in candidates {
+                rects[id] = CGRect(origin: origin, size: size)
+                let issues = Self.issues(of: rects, main: mainID).count
+                let distance = hypot(origin.x - current.minX, origin.y - current.minY)
+                if best == nil || (issues, distance) < (best!.issues, best!.distance) {
+                    best = (origin, issues, distance)
+                }
+            }
+        }
+        guard let best, best.issues < currentIssues else { return nil }
+        return best.origin
+    }
+
+    /// Moves `id` to the nearest position macOS would accept.
+    func fix(_ id: DisplayID) {
+        guard let origin = fixedOrigin(of: id) else { return }
+        registerUndo("Fix Screen Position")
+        move(id, to: origin)
     }
 
     private static func touch(_ a: CGRect, _ b: CGRect) -> Bool {

@@ -80,9 +80,8 @@ private struct StatusBar: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
-            ForEach(model.warnings, id: \.self) { warning in
-                Label(warning, systemImage: "exclamationmark.triangle.fill")
-                    .foregroundStyle(.orange)
+            ForEach(model.warnings) { warning in
+                WarningRow(model: model, warning: warning)
             }
             HStack {
                 Text(verbatim: "$ " + model.command)
@@ -101,5 +100,23 @@ private struct StatusBar: View {
         .padding(10)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(.bar)
+    }
+}
+
+/// A layout warning, with a button moving the screen at fault where macOS would accept it.
+struct WarningRow: View {
+    var model: LayoutModel
+    let warning: LayoutWarning
+
+    var body: some View {
+        HStack {
+            Label(warning.message, systemImage: "exclamationmark.triangle.fill")
+                .foregroundStyle(.orange)
+            if let id = warning.fixableScreen {
+                Button("Fix") { model.fix(id) }
+                    .controlSize(.small)
+                    .help("Move \(model.screens.first { $0.id == id }?.name ?? "the screen") to the nearest position next to the other screens")
+            }
+        }
     }
 }
